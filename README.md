@@ -1,4 +1,4 @@
-># How To install DDOS PROT In Your Vps
+# How To install DDOS PROT In Your Vps
 >
 >git clone https://github.com/Shraddhaopgaming/DDOS
 >
@@ -10,5 +10,5 @@
 >
 >node app.js 
 >
-># if u want to use dash use ur ip and use port and last like this  :3000
-> 
+# if u want to use dash use ur ip and use port and last like this  :3000
+

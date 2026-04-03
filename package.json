@@ -1,0 +1,34 @@
+{
+  "name": "ddos-protection-dashboard",
+  "version": "2.0.0",
+  "description": "Real-time DDoS protection system with secure authentication",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "node test-server.js",
+    "dev": "node app.js"
+  },
+  "keywords": [
+    "ddos",
+    "protection",
+    "security",
+    "iptables",
+    "firewall",
+    "monitoring",
+    "real-time"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.10.0",
+    "cookie-parser": "^1.4.6",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.1.5",
+    "jsonwebtoken": "^9.0.2",
+    "socket.io": "^4.8.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

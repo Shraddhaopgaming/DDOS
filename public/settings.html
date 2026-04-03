@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - DDoS Protection</title>
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚙️</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --bg-dark: #0f0f23;
+            --bg-card: rgba(26, 26, 62, 0.6);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #fff;
+            --text-secondary: #888;
+            --success: #4ade80;
+            --danger: #ff6b6b;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .header {
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 1.5em;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9em;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+        }
+        
+        .btn-success {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: var(--success);
+        }
+        
+        .btn-danger {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: var(--danger);
+        }
+        
+        .container {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 1em;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: var(--text-secondary);
+            font-size: 0.85em;
+        }
+        
+        .emoji-picker {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .emoji-btn {
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1.5em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .emoji-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.1);
+        }
+        
+        .emoji-btn.active {
+            background: var(--primary-gradient);
+            border-color: #667eea;
+        }
+        
+        .preview-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .preview-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .preview-icon {
+            font-size: 2em;
+        }
+        
+        .preview-title {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .alert {
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .alert-success {
+            background: rgba(74, 222, 128, 0.2);
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+        
+        .alert-danger {
+            background: rgba(255, 107, 107, 0.2);
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚙️ Settings & Customization</h1>
+        <div style="display: flex; gap: 10px;">
+            <a href="/change-password.html" class="btn">🔐 Change Password</a>
+            <a href="/dashboard.html" class="btn">🛡️ Back to Dashboard</a>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div id="alertSuccess" class="alert alert-success">
+            ✅ Settings saved successfully!
+        </div>
+        
+        <div id="alertError" class="alert alert-danger">
+            ❌ Failed to save settings. Please try again.
+        </div>
+        
+        <div class="card">
+            <h2>🎨 Site Branding</h2>
+            
+            <div class="form-group">
+                <label for="siteName">Site Name</label>
+                <input type="text" id="siteName" placeholder="DDoS Protection System">
+                <small>This will appear in the header and page titles</small>
+            </div>
+            
+            <div class="form-group">
+                <label>Header Icon</label>
+                <input type="text" id="headerIcon" placeholder="🛡️" maxlength="2">
+                <div class="emoji-picker">
+                    <button class="emoji-btn" onclick="selectEmoji('headerIcon', '🛡️')">🛡️</button>
+                    <button class="emoji-btn" onclick="selectEmoji('headerIcon', '🔒')">🔒</button>
+                    <button class="emoji-btn" onclick="selectEmoji('headerIcon', '🔐')">🔐</button>
+                    <button class="emoji-btn" onclick="selectEmoji('headerIcon', '⚡')">⚡</button>
+                    <button class="emoji-btn" onclick="selectEmoji('headerIcon', '🚀')">🚀</button>
+                    <button class="emoji-btn" onclick="selectEmoji('headerIcon', '💻')">💻</button>
+                    <button class="emoji-btn" onclick="selectEmoji('headerIcon', '🌐')">🌐</button>
+                    <button class="emoji-btn" onclick="selectEmoji('headerIcon', '🔥')">🔥</button>
+                </div>
+                <small>Choose an icon for the header</small>
+            </div>
+            
+            <div class="form-group">
+                <label>Footer Icon</label>
+                <input type="text" id="footerIcon" placeholder="🛡️" maxlength="2">
+                <div class="emoji-picker">
+                    <button class="emoji-btn" onclick="selectEmoji('footerIcon', '🛡️')">🛡️</button>
+                    <button class="emoji-btn" onclick="selectEmoji('footerIcon', '🔒')">🔒</button>
+                    <button class="emoji-btn" onclick="selectEmoji('footerIcon', '⚡')">⚡</button>
+                    <button class="emoji-btn" onclick="selectEmoji('footerIcon', '💎')">💎</button>
+                    <button class="emoji-btn" onclick="selectEmoji('footerIcon', '✨')">✨</button>
+                    <button class="emoji-btn" onclick="selectEmoji('footerIcon', '🌟')">🌟</button>
+                </div>
+                <small>Choose an icon for the footer</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="footerText">Footer Text</label>
+                <input type="text" id="footerText" placeholder="Protected by DDoS Protection System">
+                <small>Custom text to display in the footer</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="favicon">Favicon URL (Optional)</label>
+                <input type="text" id="favicon" placeholder="https://example.com/favicon.png">
+                <small>Leave empty to use default emoji favicon</small>
+            </div>
+            
+            <div class="preview-box">
+                <div class="preview-header">
+                    <span class="preview-icon" id="previewIcon">🛡️</span>
+                    <span class="preview-title" id="previewTitle">DDoS Protection System</span>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9em;">Preview of your branding</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>🔧 System Settings</h2>
+            
+            <div class="form-group">
+                <label for="refreshInterval">Data Refresh Interval (seconds)</label>
+                <input type="number" id="refreshInterval" min="1" max="60" value="3">
+                <small>How often to update live data (default: 3 seconds)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="maxIPsDisplay">Maximum IPs to Display</label>
+                <input type="number" id="maxIPsDisplay" min="10" max="500" value="100">
+                <small>Maximum number of IPs to show in tables (default: 100)</small>
+            </div>
+        </div>
+        
+        <div class="button-group">
+            <button class="btn btn-success" onclick="saveSettings()">💾 Save Settings</button>
+            <button class="btn btn-danger" onclick="resetSettings()">🔄 Reset to Default</button>
+            <button class="btn" onclick="exportSettings()">📥 Export Settings</button>
+            <button class="btn" onclick="document.getElementById('importFile').click()">📤 Import Settings</button>
+            <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importSettings(event)">
+        </div>
+    </div>
+    
+    <script>
+        console.log('⚙️ Settings page loaded');
+        
+        // Load existing settings
+        function loadSettings() {
+            const settings = JSON.parse(localStorage.getItem('siteSettings') || '{}');
+            
+            if (settings.siteName) document.getElementById('siteName').value = settings.siteName;
+            if (settings.headerIcon) document.getElementById('headerIcon').value = settings.headerIcon;
+            if (settings.footerIcon) document.getElementById('footerIcon').value = settings.footerIcon;
+            if (settings.footerText) document.getElementById('footerText').value = settings.footerText;
+            if (settings.favicon) document.getElementById('favicon').value = settings.favicon;
+            if (settings.refreshInterval) document.getElementById('refreshInterval').value = settings.refreshInterval;
+            if (settings.maxIPsDisplay) document.getElementById('maxIPsDisplay').value = settings.maxIPsDisplay;
+            
+            updatePreview();
+        }
+        
+        // Update preview
+        function updatePreview() {
+            const siteName = document.getElementById('siteName').value || 'DDoS Protection System';
+            const headerIcon = document.getElementById('headerIcon').value || '🛡️';
+            
+            document.getElementById('previewTitle').textContent = siteName;
+            document.getElementById('previewIcon').textContent = headerIcon;
+        }
+        
+        // Select emoji
+        function selectEmoji(inputId, emoji) {
+            document.getElementById(inputId).value = emoji;
+            updatePreview();
+        }
+        
+        // Save settings
+        function saveSettings() {
+            const settings = {
+                siteName: document.getElementById('siteName').value || 'DDoS Protection System',
+                headerIcon: document.getElementById('headerIcon').value || '🛡️',
+                footerIcon: document.getElementById('footerIcon').value || '🛡️',
+                footerText: document.getElementById('footerText').value || 'Protected by DDoS Protection System',
+                favicon: document.getElementById('favicon').value || '',
+                refreshInterval: parseInt(document.getElementById('refreshInterval').value) || 3,
+                maxIPsDisplay: parseInt(document.getElementById('maxIPsDisplay').value) || 100
+            };
+            
+            localStorage.setItem('siteSettings', JSON.stringify(settings));
+            
+            showAlert('success');
+            
+            setTimeout(() => {
+                window.location.href = '/dashboard.html';
+            }, 1500);
+        }
+        
+        // Reset settings
+        function resetSettings() {
+            if (!confirm('Reset all settings to default?')) return;
+            
+            localStorage.removeItem('siteSettings');
+            
+            document.getElementById('siteName').value = '';
+            document.getElementById('headerIcon').value = '';
+            document.getElementById('footerIcon').value = '';
+            document.getElementById('footerText').value = '';
+            document.getElementById('favicon').value = '';
+            document.getElementById('refreshInterval').value = 3;
+            document.getElementById('maxIPsDisplay').value = 100;
+            
+            updatePreview();
+            showAlert('success');
+        }
+        
+        // Export settings
+        function exportSettings() {
+            const settings = localStorage.getItem('siteSettings') || '{}';
+            const blob = new Blob([settings], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ddos-settings-${Date.now()}.json`;
+            a.click();
+        }
+        
+        // Import settings
+        function importSettings(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const settings = JSON.parse(e.target.result);
+                    localStorage.setItem('siteSettings', JSON.stringify(settings));
+                    loadSettings();
+                    showAlert('success');
+                } catch (err) {
+                    showAlert('error');
+                }
+            };
+            reader.readAsText(file);
+        }
+        
+        // Show alert
+        function showAlert(type) {
+            const alertId = type === 'success' ? 'alertSuccess' : 'alertError';
+            const alert = document.getElementById(alertId);
+            alert.style.display = 'block';
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Live preview updates
+        document.getElementById('siteName').addEventListener('input', updatePreview);
+        document.getElementById('headerIcon').addEventListener('input', updatePreview);
+        
+        // Load settings on page load
+        loadSettings();
+    </script>
+</body>
+</html>

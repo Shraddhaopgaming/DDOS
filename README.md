@@ -9,7 +9,6 @@
 >apt install nodejs -y
 >
 >npm run start 
->
-># If u want to use dash use ur ip and use port and last like this  :3000
->## This is made by HopingBoy
->
+# If u want to use dash use ur ip and use port and last like this  :3000
+## This is made by HopingBoy
+
